@@ -4,11 +4,11 @@ Powershell script for CSV import (creation and update) in Dynamics 365 (v8+) for
 
 # Overview
 
-The mapping of the field is automatic (by checking the entity metadata in CRM)
-To update a record provide the Guid of the record, for creation leave the field empty
-For Picklist field provide the CRM Optionset int value 
-For Lookup value provide the Guid of the record
-A contacts.csv example file is provided for demonstration
+The mapping of the fields is automatic (by checking the entity metadata in CRM)  
+To update a record provide the Guid of the record, for creation leave the field empty  
+For Picklist field provide the CRM Optionset int value  
+For Lookup value provide the Guid of the record  
+A contacts.csv example file is provided for demonstration  
 
 # Usage
 
