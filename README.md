@@ -1,4 +1,4 @@
-# Dynamics365import
+# Dynamics365import (Feb 2019)
 
 Powershell script for CSV import (creation and update) in Dynamics 365 (v8+) for OnPremise or Online
 
