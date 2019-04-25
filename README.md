@@ -13,7 +13,7 @@ A success_date.log and errors_date.log files are created during import with the 
 
 # Usage
 
-./dynamics365import.ps1 -url https://mycrmurl.crm4.dynamics.com -username user@mydomain.fr -password mypassword -entity myentity -file myimportfile.csv
+`./dynamics365import.ps1 -url https://mycrmurl.crm4.dynamics.com -username user@mydomain.fr -password mypassword -entity myentity -file myimportfile.csv`
 
 # Licence
 
