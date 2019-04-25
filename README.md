@@ -9,6 +9,7 @@ To update a record provide the Guid of the record, for creation leave the field 
 For Picklist field provide the CRM Optionset int value  
 For Lookup value provide the Guid of the record  
 A contacts.csv example file is provided for demonstration  
+A success_date.log and errors_date.log files are created during import with the succes and errors records.
 
 # Usage
 
