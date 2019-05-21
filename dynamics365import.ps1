@@ -117,28 +117,28 @@ $records | Foreach-Object {
 
     $line = $_
     
-    $entity = New-Object Microsoft.Xrm.Sdk.Entity($entity)
+    $entityrecord = New-Object Microsoft.Xrm.Sdk.Entity($entity)
 
     if($_.$entityKey -ne "") {
-        $entity.Id = [Guid]::Parse($_.$entityKey) 
+        $entityrecord.Id = [Guid]::Parse($_.$entityKey) 
     }   
 
     foreach($property in $line.psobject.properties.name) {
 
         if($property -ne $entityKey) {
             $attributeValue = Get-AttributeValue -attributeName $property -attributeValue $line.$property
-            $entity.Attributes[$property] = $attributeValue
+            $entityrecord.Attributes[$property] = $attributeValue
         }
     }
  
-    Write-host ('Processing record : ({0} / {1})' -f, $i, $total)
+    Write-host ('Processing record : ({0} / {1})' -f $i, $total)
 
     try {
 
         if($_.$entityKey -ne "") {
-            $service.Update($entity)
+            $service.Update($entityrecord)
         } else {
-            $service.Create($entity)
+            $service.Create($entityrecord)
         }
         
         $line | Export-Csv -Path "success_$date.csv" -Delimiter ";" -Append -NoTypeInformation
