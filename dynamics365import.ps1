@@ -51,7 +51,17 @@ function Get-AttributeValue {
         return $null
     }
 
-    $attribute = $EntityMetadata | Where-Object { $_.LogicalName -eq $attributeName }
+    if($attributes.ContainsKey($attributeName)) {
+
+        $attribute = $attributes[$attributeName]
+
+    } else {
+
+        $attribute = $EntityMetadata | Where-Object { $_.LogicalName -eq $attributeName }
+
+        $attributes[$attributeName] = $attribute
+    }
+    
 
     switch ($attribute.AttributeType) {
         "Lookup" { 
@@ -71,6 +81,12 @@ function Get-AttributeValue {
          }
         "DateTime" { 
             $attribute = [DateTime]$attributeValue
+         }
+         "Integer" {
+            $attribute = [int]$attributeValue
+         }
+         "Decimal" {
+            $attribute = [decimal]$attributeValue
          }
         Default { $attribute = $attributeValue}
     }
@@ -108,10 +124,12 @@ $retrieveEntityRequest.LogicalName = $entity
 
 $retrieveAccountEntityResponse = $service.Execute($retrieveEntityRequest)
 $Global:EntityMetadata = $retrieveAccountEntityResponse.EntityMetadata.Attributes
+$Global:attributes = @{}
 
 $records = Import-Csv $file -Delimiter ";"
 $total = $records.Count
 $i = 0
+
 
 $records | Foreach-Object {
 
