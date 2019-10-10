@@ -14,6 +14,10 @@ A success_date.log and errors_date.log files are created during import with the 
 .EXAMPLE
 ./dynamics365import.ps1 -url https://mycrmurl.crm4.dynamics.com -username user@mydomain.fr -password mypassword -entity myentity -file myimportfile.csv
 
+With no credentials in cmd (will be asked more securely by Windows prompt) :
+./dynamics365import.ps1 -url https://mycrmurl.crm4.dynamics.com -entity myentity -file myimportfile.csv
+
+
 .NOTES
 
 
@@ -27,11 +31,7 @@ param(
     [parameter(mandatory=$true)]
     [ValidateNotNullOrEmpty()]
     [string]$url,
-    [parameter(mandatory=$true)]
-    [ValidateNotNullOrEmpty()]
     [string]$username,
-    [parameter(mandatory=$true)]
-    [ValidateNotNullOrEmpty()]
     [string]$password,
     [parameter(mandatory=$true)]
     [ValidateNotNullOrEmpty()]
@@ -110,8 +110,16 @@ $CrmURL = "$url/XRMServices/2011/Organization.svc";
 $entityKey = $entity + "id"
 
 $clientCredentials = new-object System.ServiceModel.Description.ClientCredentials
-$clientCredentials.UserName.UserName = $username
-$clientCredentials.UserName.Password = $password
+
+if($username -ne "" -and $password -ne "") {
+    $clientCredentials.UserName.UserName = $username
+    $clientCredentials.UserName.Password = $password
+} else {
+    $creds = Get-Credential
+    $clientCredentials.UserName.UserName = $creds.UserName 
+    $clientCredentials.UserName.Password = $creds.GetNetworkCredential().Password
+}
+
 $service = new-object Microsoft.Xrm.Sdk.Client.OrganizationServiceProxy($CrmURL, $null, $clientCredentials, $null)
 $service.Timeout = new-object System.Timespan(0, 10, 0)
 
