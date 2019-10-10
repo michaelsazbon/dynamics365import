@@ -136,7 +136,7 @@ $Global:attributes = @{}
 
 $records = Import-Csv $file -Delimiter ";"
 $total = $records.Count
-$i = 0
+$i = 1
 
 
 $records | Foreach-Object {
